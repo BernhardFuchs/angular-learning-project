@@ -33,10 +33,59 @@ export class LocalMemberService implements MemberService {
         });
       });
     });    
-}
+  }
 
-  listMember(): Promise<Member[]> {
-    throw new Error('Method not implemented.');
+  listMembers(filters?:any) : Promise<Member[]> {
+    return new Promise<Member[]>((resolve, reject) => {
+      this.prepare().then(() => {
+        this.db.transaction(tx => {
+          let query = 'SELECT * FROM members';
+          let params = [];
+          let queryItems = [];
+
+          if (filters) {
+            for (let key in filters) {
+              if (filters[key]) {
+                queryItems.push(key + ' = ?');
+                params.push(filters[key]);
+              }
+            }
+            if (queryItems.length > 0) {
+              query += ' WHERE ' + queryItems.join(' AND ');
+            }            
+          }
+          tx.executeSql(query,
+          params, (tx, result) => {
+            let members = [];
+            for (let row of result.rows) {
+              members.push(row);
+            }
+            resolve(members);
+          }, () => {
+            reject();
+          })
+        });
+      });
+    });
+  }
+
+  removeMember(member: Member) : Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.prepare().then(() => {
+        this.db.transaction(tx => {
+          tx.executeSql('DELETE FROM members WHERE id = ?',
+          [member.id], (tx, result) => {
+            if (result.rowsAffected >= 1) {
+              resolve();
+            } else {
+              reject();
+            }            
+          }, () => {
+            reject();
+          })
+        });
+      });
+    });
   }
 
   constructor() { }

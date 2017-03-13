@@ -1,0 +1,15 @@
+<h1>Members</h1>
+
+<app-filter (filterSelected)="changeFilter('gender', $event)" [filters]="genderFilterConfig"></app-filter>
+<app-filter (filterSelected)="changeFilter('unit', $event)" [filters]="unitFilterConfig"></app-filter>
+
+<table class="table">
+  <tr *ngFor="let member of members; let i = index">
+      <td>{{ member.name | capitalized }}</td>
+      <td>{{ member.age }}</td>
+      <td>{{ member.gender | capitalized }}</td>
+      <td>{{ member.unit | capitalized }}</td>
+      <td><a class="btn btn-primary">Edit</a></td>
+      <td><button (click)="removeMember(i)" class="btn btn-danger">Remove</button></td>
+  </tr>
+</table>

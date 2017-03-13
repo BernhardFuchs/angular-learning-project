@@ -4,5 +4,7 @@ export interface MemberService {
 
     addMember(member:Member) : Promise<number>;
 
-    listMember() : Promise<Member[]>;
+    listMembers(filters?:any) : Promise<Member[]>;
+
+    removeMember(member:Member) : Promise<void>;
 }

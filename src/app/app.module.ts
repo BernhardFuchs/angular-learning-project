@@ -8,9 +8,14 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { SampleComponentComponent } from './components/sample-component/sample-component.component';
 import { ErrorComponentComponent } from './components/error-component/error-component.component';
+import { MemberListComponent } from './components/member-list/member-list.component';
+import { LocalMemberService } from './services/local-member.service';
+import { FilterComponent } from './components/filter/filter.component';
+import { CapitalizedPipe } from './pipes/capitalized.pipe';
 
 let appRoutes:Routes = [
   { path:'sample-content' , component: SampleComponentComponent },
+  { path:'member-list', component: MemberListComponent},
   { path:'', redirectTo: '/sample-content', pathMatch:'full'},
   { path:'**' , component: ErrorComponentComponent}
 ];
@@ -20,7 +25,10 @@ let appRoutes:Routes = [
     AppComponent,
     MenuComponent,
     SampleComponentComponent,
-    ErrorComponentComponent
+    ErrorComponentComponent,
+    MemberListComponent,
+    FilterComponent,
+    CapitalizedPipe
   ],
   imports: [
     BrowserModule,
@@ -28,7 +36,7 @@ let appRoutes:Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [LocalMemberService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

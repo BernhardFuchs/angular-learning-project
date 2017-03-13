@@ -1,0 +1,8 @@
+<div class="btn-group">
+  <button *ngFor="let filter of filters, let i = index"
+  class="btn btn-default" [class.active]="filter.active"
+  type="button"
+  (click)="changeFilter(filter.key)">
+    {{ filter.name }}
+  </button>
+</div>
