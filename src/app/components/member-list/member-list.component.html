@@ -3,13 +3,15 @@
 <app-filter (filterSelected)="changeFilter('gender', $event)" [filters]="genderFilterConfig"></app-filter>
 <app-filter (filterSelected)="changeFilter('unit', $event)" [filters]="unitFilterConfig"></app-filter>
 
+<a class="btn btn-primary" routerLink="/member-form/0">New Member</a>
+
 <table class="table">
   <tr *ngFor="let member of members; let i = index">
       <td>{{ member.name | capitalized }}</td>
       <td>{{ member.age }}</td>
       <td>{{ member.gender | capitalized }}</td>
       <td>{{ member.unit | capitalized }}</td>
-      <td><a class="btn btn-primary">Edit</a></td>
       <td><button (click)="removeMember(i)" class="btn btn-danger">Remove</button></td>
+      <td> <a [routerLink]=" '/member-form/' + member.id " class="btn btn-primary">Edit</a></td>
   </tr>
 </table>

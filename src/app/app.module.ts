@@ -12,9 +12,17 @@ import { MemberListComponent } from './components/member-list/member-list.compon
 import { LocalMemberService } from './services/local-member.service';
 import { FilterComponent } from './components/filter/filter.component';
 import { CapitalizedPipe } from './pipes/capitalized.pipe';
+import { MemberFormComponent } from './components/member-form/member-form.component';
+import { MemberFormDeactivatorService } from './services/member-form-deactivator.service';
+import { NameValidatorDirective } from './directives/name-validator.directive';
 
 let appRoutes:Routes = [
   { path:'sample-content' , component: SampleComponentComponent },
+  { 
+    path: 'member-form/:id',
+    component: MemberFormComponent,
+    canDeactivate:[MemberFormDeactivatorService]
+  } ,
   { path:'member-list', component: MemberListComponent},
   { path:'', redirectTo: '/sample-content', pathMatch:'full'},
   { path:'**' , component: ErrorComponentComponent}
@@ -28,7 +36,9 @@ let appRoutes:Routes = [
     ErrorComponentComponent,
     MemberListComponent,
     FilterComponent,
-    CapitalizedPipe
+    CapitalizedPipe,
+    MemberFormComponent,
+    NameValidatorDirective
   ],
   imports: [
     BrowserModule,
@@ -36,7 +46,7 @@ let appRoutes:Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LocalMemberService],
+  providers: [LocalMemberService, MemberFormDeactivatorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -20,6 +20,44 @@ export class LocalMemberService implements MemberService {
       });
   }
 
+  getMember(id:number) : Promise<Member> {
+    return new Promise<Member>((resolve, reject) => {
+      this.prepare().then(() => {
+        this.db.transaction(tx => {
+          tx.executeSql("SELECT * FROM members WHERE id = ?",
+          [id], (tx, result) => { 
+            if (result.rows.length > 0) {
+              resolve(result.rows[0]);
+            } else {
+              reject();
+            }
+          }, () => {
+            reject();
+          })
+        });
+      });
+    });
+  }
+
+  editMember(member: Member) : Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.prepare().then(() => {
+        this.db.transaction(tx => {
+          tx.executeSql('UPDATE members SET name=?,age=?,unit=?,gender=? WHERE id = ?',
+          [member.name, member.age, member.unit, member.gender, member.id], (tx, result) => {
+            if (result.rowsAffected >= 1) {
+              resolve();
+            } else {
+              reject();
+            }            
+          }, () => {
+            reject();
+          })
+        });
+      });
+    });
+  }
+
   addMember(member:Member) : Promise<number> {
     return new Promise<number> ((resolve, reject) => {
       this.prepare().then(() => {

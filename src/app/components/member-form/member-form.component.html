@@ -1,0 +1,40 @@
+<h1>Member Form</h1>
+
+<form #memberForm="ngForm" (ngSubmit)="submitMember(memberForm)" novalidate> 
+
+  <div [@formError]="'in'" *ngIf="memberForm.submitted && memberForm.invalid" class="alert alert-danger">
+    There are errors, please check!
+  </div>
+
+  <div class = "form-group" [class.has-error]="name.invalid && name.touched">
+    <label class="control-label">Name</label>
+    <input appNameValidator minlength="3" required #name="ngModel" class="form-control" name="name" [(ngModel)] = "member.name" >
+  
+    <ng-container *ngIf="name.invalid && (name.touched || memberForm.submitted)">
+      <span *ngIf="name.errors.required" class="help-block">Name is required</span>
+      <span *ngIf="name.errors.minlength" class="help-block">Name must be at least 3 chars</span>
+      <span *ngIf="name.errors.name" class="help-block">duplicate Name</span>
+    </ng-container>
+  </div>
+
+  <div class = "form-group">
+    <label class="control-label">Gender</label>
+    <select #gender="ngModel" class="form-control" name="gender" [(ngModel)] = "member.gender">
+      <option [value]="gender.value" *ngFor="let gender of genders">
+        {{gender.name}}
+      </option>
+    </select>
+  </div>
+
+  <div class = "form-group">
+    <label class="control-label">Unit</label>
+    <input #unit="ngModel" class="form-control" name="unit" [(ngModel)] = "member.unit"> 
+  </div>
+
+ <div class = "form-group">
+    <label class="control-label">Age</label>
+    <input #age="ngModel" class="form-control" name="age" [(ngModel)] = "member.age">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
