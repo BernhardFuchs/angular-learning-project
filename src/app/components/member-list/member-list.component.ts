@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalMemberService } from '../../services/local-member.service';
 import { Member } from '../../api/member';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-member-list',
@@ -9,6 +10,7 @@ import { Member } from '../../api/member';
 })
 export class MemberListComponent implements OnInit {
 
+  inDevelopment = !environment.production;
   members:Member[];
   filter:any = {};
 

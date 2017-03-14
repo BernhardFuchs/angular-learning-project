@@ -1,3 +1,5 @@
+<div *ngIf="inDevelopment" class="alert-info">You are in dev-mode</div>
+
 <h1>Members</h1>
 
 <app-filter (filterSelected)="changeFilter('gender', $event)" [filters]="genderFilterConfig"></app-filter>
